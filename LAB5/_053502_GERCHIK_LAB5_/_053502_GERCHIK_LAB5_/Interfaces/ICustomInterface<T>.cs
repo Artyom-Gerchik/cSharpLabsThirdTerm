@@ -24,6 +24,6 @@ namespace _053502_GERCHIK_LAB5_.Interfaces
 
         void Remove(T item); //метод, удаляет объект item из коллекции
 
-        T RemoveCurrent(); //метод, удаляет элемент текущего положения курсора
+        void RemoveCurrent(); //метод, удаляет элемент текущего положения курсора
     }
 }

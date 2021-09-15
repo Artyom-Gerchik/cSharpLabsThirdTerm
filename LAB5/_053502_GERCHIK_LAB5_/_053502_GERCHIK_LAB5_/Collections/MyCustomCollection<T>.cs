@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using _053502_GERCHIK_LAB5_.Entities;
 using _053502_GERCHIK_LAB5_.Interfaces;
 
 namespace _053502_GERCHIK_LAB5_.Collections
@@ -7,40 +9,75 @@ namespace _053502_GERCHIK_LAB5_.Collections
     {
         private MyNode<T> _headElement = null;
         private MyNode<T> _tailElement;
+        private MyNode<T> _cursor;
+
+        public MyCustomCollection()
+        {
+            _cursor = _headElement;
+        }
+
+        // https://stackoverflow.com/questions/390900/cant-operator-be-applied-to-generic-types-in-c
+        public bool Compare<T>(T x, T y)
+        {
+            return EqualityComparer<T>.Default.Equals(x, y);
+        }
 
 
         public T this[int index] // индексатор коллекции
         {
-            get => throw new System.NotImplementedException();
-            set => throw new System.NotImplementedException();
+            get
+            {
+                int _tempCounter = 0;
+                MyNode<T> tempElement = _headElement;
+                while (_tempCounter != index)
+                {
+                    tempElement = tempElement.PointerToNext;
+                    _tempCounter++;
+                }
+
+                return tempElement.Item;
+            }
+
+            set
+            {
+                int _tempCounter = 0;
+                MyNode<T> tempElement = _headElement;
+                while (_tempCounter != index)
+                {
+                    tempElement = tempElement.PointerToNext;
+                }
+
+                tempElement.Item = value;
+            }
         }
-        
+
         public int Count { get; set; } //свойство, возвращает количество элементов в коллекции
 
         public void Reset() // метод, устанавливает курсор в начало коллекции
         {
-            throw new System.NotImplementedException();
+            _cursor = _headElement;
         }
 
         public void Next() // метод, перемещает курсор на следующий элемент коллекции
         {
-            throw new System.NotImplementedException();
+            _cursor = _cursor.PointerToNext;
         }
 
         public T Current() //метод, возвращает элемент текущего положения курсора
         {
-            throw new System.NotImplementedException();
+            return _cursor.Item;
         }
 
-        public void Add(T item) //метод, добавляет объект item в конец коллекции
+        public void Add(T itemToAdd) //метод, добавляет объект item в конец коллекции // add cursor moving
         {
             MyNode<T> nodeToAdd = new MyNode<T>();
-            nodeToAdd.Item = item;
+            nodeToAdd.Item = itemToAdd;
             if (_headElement == null)
             {
                 _headElement = nodeToAdd;
                 _tailElement = nodeToAdd;
                 nodeToAdd.PointerToNext = null;
+                _cursor = _headElement;
             }
             else
             {
@@ -48,17 +85,96 @@ namespace _053502_GERCHIK_LAB5_.Collections
                 current.PointerToNext = nodeToAdd;
                 _tailElement = nodeToAdd;
                 _tailElement.PointerToNext = null;
+                _cursor = _tailElement;
+            }
+
+            Count++;
+        }
+
+        public void Remove(T itemToDelete) //метод, удаляет объект item из коллекции
+        {
+            MyNode<T> nodeToDelete = new MyNode<T>();
+            nodeToDelete.Item = itemToDelete;
+
+            MyNode<T> tempNode = _headElement;
+            MyNode<T> previousTempNode = null;
+
+            while (tempNode != null)
+            {
+                if (Compare(nodeToDelete.Item, tempNode.Item))
+                {
+                    if (tempNode.PointerToNext == null && tempNode == _headElement)
+                    {
+                        _headElement = null;
+                        _tailElement = null;
+                        Count--;
+                        return;
+                    }
+
+                    if (tempNode == _headElement)
+                    {
+                        _headElement = tempNode.PointerToNext;
+                        Count--;
+                        return;
+                    }
+
+                    if (tempNode == _tailElement)
+                    {
+                        _tailElement = previousTempNode;
+                        if (_tailElement != null)
+                        {
+                            _tailElement.PointerToNext = null;
+                        }
+
+                        Count--;
+                        return;
+                    }
+
+                    else
+                    {
+                        if (previousTempNode != null)
+                        {
+                            previousTempNode.PointerToNext = tempNode.PointerToNext;
+                        }
+
+                        Count--;
+                        return;
+                    }
+                }
+                else
+                {
+                    previousTempNode = tempNode;
+                    tempNode = tempNode.PointerToNext;
+                }
             }
         }
 
-        public void Remove(T item) //метод, удаляет объект item из коллекции
+        public void RemoveCurrent() //метод, удаляет элемент текущего положения курсора
         {
-            
-        }
+            if (_cursor == _headElement)
+            {
+                _headElement = _headElement.PointerToNext;
+                _cursor = _headElement;
+                Count--;
+                return;
+            }
 
-        public T RemoveCurrent() //метод, удаляет элемент текущего положения курсора
-        {
-            throw new System.NotImplementedException();
+            MyNode<T> previousNode = _headElement;
+            while (previousNode != null)
+            {
+                if (previousNode.PointerToNext == _cursor)
+                {
+                    MyNode<T> nextNode = _cursor.PointerToNext;
+                    _cursor = previousNode;
+                    _cursor.PointerToNext = nextNode;
+                    Count--;
+                    return;
+                }
+                else
+                {
+                    previousNode = previousNode.PointerToNext;
+                }
+            }
         }
     }
 }
