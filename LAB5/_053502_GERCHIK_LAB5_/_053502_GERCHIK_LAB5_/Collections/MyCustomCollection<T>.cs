@@ -27,8 +27,23 @@ namespace _053502_GERCHIK_LAB5_.Collections
         {
             get
             {
+                try
+                {
+                    if (index > Count - 1 || index < 0)
+                    {
+                        throw new IndexOutOfRangeException("Exception in indexer");
+                    }
+                }
+
+                catch (IndexOutOfRangeException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return default;
+                }
+
                 int _tempCounter = 0;
                 MyNode<T> tempElement = _headElement;
+
                 while (_tempCounter != index)
                 {
                     tempElement = tempElement.PointerToNext;
@@ -98,54 +113,63 @@ namespace _053502_GERCHIK_LAB5_.Collections
 
             MyNode<T> tempNode = _headElement;
             MyNode<T> previousTempNode = null;
-
-            while (tempNode != null)
+            try
             {
-                if (Compare(nodeToDelete.Item, tempNode.Item))
+                while (tempNode != null)
                 {
-                    if (tempNode.PointerToNext == null && tempNode == _headElement)
+                    if (Compare(nodeToDelete.Item, tempNode.Item))
                     {
-                        _headElement = null;
-                        _tailElement = null;
-                        Count--;
-                        return;
-                    }
-
-                    if (tempNode == _headElement)
-                    {
-                        _headElement = tempNode.PointerToNext;
-                        Count--;
-                        return;
-                    }
-
-                    if (tempNode == _tailElement)
-                    {
-                        _tailElement = previousTempNode;
-                        if (_tailElement != null)
+                        if (tempNode.PointerToNext == null && tempNode == _headElement)
                         {
-                            _tailElement.PointerToNext = null;
+                            _headElement = null;
+                            _tailElement = null;
+                            Count--;
+                            return;
                         }
 
-                        Count--;
-                        return;
-                    }
+                        if (tempNode == _headElement)
+                        {
+                            _headElement = tempNode.PointerToNext;
+                            Count--;
+                            return;
+                        }
 
+                        if (tempNode == _tailElement)
+                        {
+                            _tailElement = previousTempNode;
+                            if (_tailElement != null)
+                            {
+                                _tailElement.PointerToNext = null;
+                            }
+
+                            Count--;
+                            return;
+                        }
+
+                        else
+                        {
+                            if (previousTempNode != null)
+                            {
+                                previousTempNode.PointerToNext = tempNode.PointerToNext;
+                            }
+
+                            Count--;
+                            return;
+                        }
+                    }
                     else
                     {
-                        if (previousTempNode != null)
+                        previousTempNode = tempNode;
+                        tempNode = tempNode.PointerToNext;
+                        if (tempNode == null)
                         {
-                            previousTempNode.PointerToNext = tempNode.PointerToNext;
+                            throw new MyException();
                         }
-
-                        Count--;
-                        return;
                     }
                 }
-                else
-                {
-                    previousTempNode = tempNode;
-                    tempNode = tempNode.PointerToNext;
-                }
+            }
+            catch (MyException ex)
+            {
             }
         }
 

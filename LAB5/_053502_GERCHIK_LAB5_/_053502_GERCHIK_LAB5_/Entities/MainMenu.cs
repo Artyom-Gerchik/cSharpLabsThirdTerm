@@ -5,6 +5,8 @@ namespace _053502_GERCHIK_LAB5_.Entities
 {
     public class MainMenu
     {
+        private Journal myJournal = new Journal();
+
         private enum WorkStateBuilder
         {
             NotInitialized,
@@ -24,8 +26,10 @@ namespace _053502_GERCHIK_LAB5_.Entities
         }
 
 
-        public static void mainMenu()
+        public void mainMenu(InformationSystem myInformationSystem)
         {
+            myInformationSystem.NotifyAboutWorker += message => myJournal.outputEvent(message);
+
             Console.WriteLine("Hello");
             Console.WriteLine();
 
@@ -35,11 +39,16 @@ namespace _053502_GERCHIK_LAB5_.Entities
 
             while (true)
             {
+                Console.WriteLine();
                 Console.WriteLine("0 - Exit");
                 Console.WriteLine("1 - Add Worker");
-                Console.WriteLine("2 - Info By Name");
-                Console.WriteLine("3 - Total Info");
-                Console.WriteLine("4 - Info About Works");
+                Console.WriteLine("2 - Perform Work");
+                Console.WriteLine("3 - Info By Name");
+                Console.WriteLine("4 - Total Info");
+                Console.WriteLine("5 - Info About Works");
+                Console.WriteLine("6 - Info About DataBase");
+                Console.WriteLine("7 - Delete Worker");
+                Console.WriteLine("8 - Logs");
                 Console.WriteLine();
                 Console.Write("Your choice: ");
                 string userInput = Console.ReadLine();
@@ -72,11 +81,11 @@ namespace _053502_GERCHIK_LAB5_.Entities
                                     switch (BuilderState)
                                     {
                                         case WorkStateBuilder.NotInitialized:
-                                            InformationSystem.AddBuilderFirstTime();
+                                            myInformationSystem.AddBuilderFirstTime();
                                             BuilderState = WorkStateBuilder.Initialized;
                                             break;
                                         case WorkStateBuilder.Initialized:
-                                            InformationSystem.AddBuilder();
+                                            myInformationSystem.AddBuilder();
                                             break;
                                         default:
                                             Console.WriteLine("smth weird");
@@ -88,11 +97,11 @@ namespace _053502_GERCHIK_LAB5_.Entities
                                     switch (EngineerState)
                                     {
                                         case WorkStateEngineer.NotInitialized:
-                                            InformationSystem.AddEngineerFirstTime();
+                                            myInformationSystem.AddEngineerFirstTime();
                                             EngineerState = WorkStateEngineer.Initialized;
                                             break;
                                         case WorkStateEngineer.Initialized:
-                                            InformationSystem.AddEngineer();
+                                            myInformationSystem.AddEngineer();
                                             break;
                                         default:
                                             Console.WriteLine("smth weird");
@@ -104,11 +113,11 @@ namespace _053502_GERCHIK_LAB5_.Entities
                                     switch (ProgrammerState)
                                     {
                                         case WorkStateProgrammer.NotInitialized:
-                                            InformationSystem.AddProgrammerFirstTime();
+                                            myInformationSystem.AddProgrammerFirstTime();
                                             ProgrammerState = WorkStateProgrammer.Initialized;
                                             break;
                                         case WorkStateProgrammer.Initialized:
-                                            InformationSystem.AddProgrammer();
+                                            myInformationSystem.AddProgrammer();
                                             break;
                                         default:
                                             Console.WriteLine("smth weird");
@@ -126,17 +135,39 @@ namespace _053502_GERCHIK_LAB5_.Entities
                         break;
                     case "2":
                         Console.WriteLine();
+                        if (myInformationSystem.InfoAboutDataBase())
+                        {
+                            myInformationSystem.PerformWork();
+                        }
+
+                        break;
+                    case "3":
+                        Console.WriteLine();
                         Console.Write("Enter Worker Name: ");
                         var workerName = Console.ReadLine();
                         InformationSystem.FindByName(workerName);
                         break;
-                    case "3":
+                    case "4":
                         Console.WriteLine();
                         InformationSystem.TotalInfo();
                         break;
-                    case "4":
+                    case "5":
                         Console.WriteLine();
                         InformationSystem.InfoAboutWorks();
+                        break;
+                    case "6":
+                        Console.WriteLine();
+                        myInformationSystem.InfoAboutDataBase();
+                        break;
+                    case "7":
+                        Console.WriteLine();
+                        if (myInformationSystem.InfoAboutDataBase())
+                        {
+                            myInformationSystem.RemoveByIndex();
+                        }
+                        break;
+                    case "8":
+                        myJournal.printLogs();
                         break;
                     default:
                         Console.WriteLine();

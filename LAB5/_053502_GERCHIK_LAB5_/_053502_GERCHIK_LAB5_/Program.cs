@@ -6,9 +6,14 @@ namespace _053502_GERCHIK_LAB5_
 {
     class Program
     {
-        static void Main()
+        private static MainMenu _mainMenu = new MainMenu();
+
+        private static void Main()
         {
-            MainMenu.mainMenu();
+            InformationSystem infSys = new InformationSystem();
+            infSys.NotifyAboutPerformedWork += (message) => Console.WriteLine(message);
+
+            _mainMenu.mainMenu(infSys);
         }
     }
 }
