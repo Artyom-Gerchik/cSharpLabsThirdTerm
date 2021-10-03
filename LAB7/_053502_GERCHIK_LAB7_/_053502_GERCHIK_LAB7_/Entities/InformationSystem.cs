@@ -1,17 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.Versioning;
+using System.Linq;
 
 namespace _053502_GERCHIK_LAB5_.Entities
 {
     public class InformationSystem
     {
-        //private static MyCustomCollection<Worker> _dataBase = new MyCustomCollection<Worker>();
-
         private List<Worker> _dataBase = new List<Worker>();
 
         private Dictionary<string, Work> worksDictionary = new Dictionary<string, Work>();
-
 
         public delegate void WorkerDelegate(string message);
 
@@ -21,15 +18,76 @@ namespace _053502_GERCHIK_LAB5_.Entities
 
         public event WorkDelegate NotifyAboutPerformedWork;
 
-        public void Initiall()
+        public void AddWork()
         {
-            string workName = "Builder";
-            double workSalary = 100500;
-            Work workToAdd = new Work(workName, workSalary);
+            Console.Write("Enter a Work Name: ");
+            string workName = Console.ReadLine();
+            double workSalary = 0;
 
-            worksDictionary.Add(workName, workToAdd);
+            bool temp = true;
+
+            while (temp)
+            {
+                try
+                {
+                    Console.Write($"Enter {workName} Salary: ");
+                    var userInput = Console.ReadLine();
+                    workSalary = Convert.ToDouble(userInput);
+                }
+                catch (System.FormatException)
+                {
+                    Console.WriteLine("Enter a proper value, RedNeck!");
+                    continue;
+                }
+
+                temp = false;
+            }
+
+            Work workToAdd = new Work(workName, workSalary);
+            worksDictionary.Add(workToAdd.WorkName, workToAdd);
+
         }
 
+        public void AddWorker()
+        {
+            Worker workerToAdd = new Worker();
+
+            Console.Write("Enter Worker Name: ");
+            var workerName = Console.ReadLine();
+
+            Console.WriteLine("Choose Work For Worker: ");
+            for (int index = 0; index < worksDictionary.Count; index++)
+            {
+                Console.WriteLine($"{index + 1}. {worksDictionary.ElementAt(index).Key} ");
+            }
+
+            bool temp = true;
+            string userInput;
+            int ID = -1;
+            while (temp)
+            {
+                try
+                {
+                    Console.Write("Enter Work ID: ");
+                    userInput = Console.ReadLine();
+                    ID = Convert.ToInt32(userInput);
+
+                    if(ID > worksDictionary.Count || ID < 0)
+                    {
+                        Console.WriteLine("Enter a proper value, RedNeck!");
+                        continue;
+                    }
+                }
+                catch (System.FormatException)
+                {
+                    Console.WriteLine("Enter a proper value, RedNeck!");
+                    continue;
+                }
+
+                temp = false;
+            }
+
+        }
 
         public void AddBuilderFirstTime()
         {
@@ -178,8 +236,11 @@ namespace _053502_GERCHIK_LAB5_.Entities
             NotifyAboutWorker?.Invoke("Programmer Added!");
         }
 
-        public void FindByName(string inputName)
+        public void FindByName()
         {
+            Console.Write("Enter Worker Name: ");
+            var workerName = Console.ReadLine();
+
             var tempCounter = 0;
             if (_dataBase.Count == 0)
             {
@@ -191,7 +252,7 @@ namespace _053502_GERCHIK_LAB5_.Entities
 
             for (int index = 0; index < _dataBase.Count; index++)
             {
-                if (_dataBase[index].Name.ToLower() == inputName.ToLower())
+                if (_dataBase[index].Name.ToLower() == workerName.ToLower())
                 {
                     Console.WriteLine();
                     Console.WriteLine(

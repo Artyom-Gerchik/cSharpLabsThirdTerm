@@ -48,6 +48,7 @@ namespace _053502_GERCHIK_LAB5_.Entities
                 Console.WriteLine("6 - Info About DataBase");
                 Console.WriteLine("7 - Delete Worker");
                 Console.WriteLine("8 - Logs");
+                Console.WriteLine("9 - Add Work");
                 Console.WriteLine();
                 Console.Write("Your choice: ");
                 string userInput = Console.ReadLine();
@@ -142,9 +143,7 @@ namespace _053502_GERCHIK_LAB5_.Entities
                         break;
                     case "3":
                         Console.WriteLine();
-                        Console.Write("Enter Worker Name: ");
-                        var workerName = Console.ReadLine();
-                        myInformationSystem.FindByName(workerName);
+                        myInformationSystem.FindByName();
                         break;
                     case "4":
                         Console.WriteLine();
@@ -168,6 +167,10 @@ namespace _053502_GERCHIK_LAB5_.Entities
                         break;
                     case "8":
                         myJournal.printLogs();
+                        break;
+                    case "9":
+                        Console.WriteLine();
+                        myInformationSystem.AddWork();
                         break;
                     default:
                         Console.WriteLine();
