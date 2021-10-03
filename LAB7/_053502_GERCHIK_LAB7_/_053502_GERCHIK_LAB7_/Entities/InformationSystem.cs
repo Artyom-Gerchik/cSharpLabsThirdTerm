@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Versioning;
 
 namespace _053502_GERCHIK_LAB5_.Entities
 {
@@ -9,6 +10,9 @@ namespace _053502_GERCHIK_LAB5_.Entities
 
         private List<Worker> _dataBase = new List<Worker>();
 
+        private Dictionary<string, Work> worksDictionary = new Dictionary<string, Work>();
+
+
         public delegate void WorkerDelegate(string message);
 
         public event WorkerDelegate NotifyAboutWorker;
@@ -17,18 +21,31 @@ namespace _053502_GERCHIK_LAB5_.Entities
 
         public event WorkDelegate NotifyAboutPerformedWork;
 
+        public void Initiall()
+        {
+            string workName = "Builder";
+            double workSalary = 100500;
+            Work workToAdd = new Work(workName, workSalary);
+
+            worksDictionary.Add(workName, workToAdd);
+        }
+
 
         public void AddBuilderFirstTime()
         {
             Worker workerToAdd = new Worker();
+            string userInput;
+            double test = 0;
             bool temp = true;
+
             while (temp)
             {
                 try
                 {
                     Console.Write("Enter Builder Work Salary: ");
-                    var userInput = Console.ReadLine();
+                    userInput = Console.ReadLine();
                     WorkBuilder.Salary = Convert.ToInt32(userInput);
+                    test = Convert.ToDouble(userInput);
                 }
                 catch (System.FormatException)
                 {
@@ -44,6 +61,7 @@ namespace _053502_GERCHIK_LAB5_.Entities
                 workerToAdd.Name = tempName;
                 workerToAdd.WorkerSalary = WorkBuilder.Salary * workerToAdd.WorkerWorkHours;
                 workerToAdd.WorkName = WorkBuilder.WorkName;
+                workerToAdd.Works.Add(new Work("Work Builder", test));
 
                 _dataBase.Add(workerToAdd);
                 NotifyAboutWorker?.Invoke("Builder Added First Time!");
@@ -176,7 +194,8 @@ namespace _053502_GERCHIK_LAB5_.Entities
                 if (_dataBase[index].Name.ToLower() == inputName.ToLower())
                 {
                     Console.WriteLine();
-                    Console.WriteLine($"Salary for {_dataBase[index].Name} is: {_dataBase[index].WorkerSalary.ToString()}");
+                    Console.WriteLine(
+                        $"Salary for {_dataBase[index].Name} is: {_dataBase[index].WorkerSalary.ToString()}");
                     Console.WriteLine();
                     tempCounter++;
                 }
@@ -365,7 +384,8 @@ namespace _053502_GERCHIK_LAB5_.Entities
                     }
                     else if (_dataBase[index - 1].WorkName == WorkProgrammer.WorkName)
                     {
-                        _dataBase[index - 1].WorkerSalary = WorkProgrammer.Salary * _dataBase[index - 1].WorkerWorkHours;
+                        _dataBase[index - 1].WorkerSalary =
+                            WorkProgrammer.Salary * _dataBase[index - 1].WorkerWorkHours;
                     }
                     else
                     {
@@ -388,6 +408,11 @@ namespace _053502_GERCHIK_LAB5_.Entities
             }
 
             NotifyAboutPerformedWork?.Invoke($"Work Performed For {_dataBase[index - 1].Name}, Hours: {hoursAsInt}");
+        }
+
+        public void test()
+        {
+            Console.WriteLine(_dataBase[0].Works[0].WorkName);
         }
     }
 }

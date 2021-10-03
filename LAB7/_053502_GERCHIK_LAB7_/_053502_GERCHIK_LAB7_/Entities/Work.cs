@@ -2,8 +2,15 @@ namespace _053502_GERCHIK_LAB5_.Entities
 {
     public class Work
     {
-        public static int Salary { get; set; }
+        public double Salary { get; set; }
 
-        public static string WorkName = "Builder";
+        public string WorkName;
+        public Work(string name, double salary)
+        {
+            Salary = salary;
+            WorkName = name;
+        }
+
+        
     }
 }
