@@ -6,175 +6,144 @@ namespace _053502_GERCHIK_LAB5_.Entities
     {
         private Journal myJournal = new Journal();
 
-        private enum WorkStateBuilder
+        private enum State
         {
-            NotInitialized,
-            Initialized
+            Initiall,
+            WorkReady,
+            WorkAndWorkerReady
         }
-
-        private enum WorkStateEngineer
-        {
-            NotInitialized,
-            Initialized
-        }
-
-        private enum WorkStateProgrammer
-        {
-            NotInitialized,
-            Initialized
-        }
-
 
         public void mainMenu(InformationSystem myInformationSystem)
         {
             myInformationSystem.NotifyAboutWorker += message => myJournal.outputEvent(message);
+            State state = State.Initiall;
 
             Console.WriteLine("Hello");
             Console.WriteLine();
 
-            WorkStateBuilder BuilderState = WorkStateBuilder.NotInitialized;
-            WorkStateEngineer EngineerState = WorkStateEngineer.NotInitialized;
-            WorkStateProgrammer ProgrammerState = WorkStateProgrammer.NotInitialized;
-
             while (true)
             {
-                Console.WriteLine();
-                Console.WriteLine("0 - Exit");
-                Console.WriteLine("1 - Add Worker");
-                Console.WriteLine("2 - Perform Work");
-                Console.WriteLine("3 - Info By Name");
-                Console.WriteLine("4 - Total Info");
-                Console.WriteLine("5 - Info About Works");
-                Console.WriteLine("6 - Info About DataBase");
-                Console.WriteLine("7 - Delete Worker");
-                Console.WriteLine("8 - Logs");
-                Console.WriteLine("9 - Add Work");
-                Console.WriteLine();
-                Console.Write("Your choice: ");
-                string userInput = Console.ReadLine();
-                Console.WriteLine();
-                switch (userInput)
+                switch (state)
                 {
-                    case "0":
-                        Console.WriteLine("See ya");
-                        return;
-                        break;
-                    case "1":
-                        bool temp = true;
-                        while (temp)
+                    case State.Initiall:
+                        Console.WriteLine("0 - Exit");
+                        Console.WriteLine("1 - Add First Work");
+                        Console.Write("Your Choice: ");
+                        var userInput = Console.ReadLine();
+
+                        switch (userInput)
                         {
-                            Console.WriteLine();
-                            Console.WriteLine("0 - Back");
-                            Console.WriteLine("1 - Add Builder");
-                            Console.WriteLine("2 - Add Engineer");
-                            Console.WriteLine("3 - Add Programmer");
-                            Console.WriteLine();
-                            Console.Write("Your Choice: ");
-                            string userInput1 = Console.ReadLine();
-                            Console.WriteLine();
-                            switch (userInput1)
-                            {
-                                case "0":
-                                    temp = false;
-                                    break;
-                                case "1":
-                                    switch (BuilderState)
-                                    {
-                                        case WorkStateBuilder.NotInitialized:
-                                            myInformationSystem.AddBuilderFirstTime();
-                                            BuilderState = WorkStateBuilder.Initialized;
-                                            break;
-                                        case WorkStateBuilder.Initialized:
-                                            myInformationSystem.AddBuilder();
-                                            break;
-                                        default:
-                                            Console.WriteLine("smth weird");
-                                            break;
-                                    }
-
-                                    break;
-                                case "2":
-                                    switch (EngineerState)
-                                    {
-                                        case WorkStateEngineer.NotInitialized:
-                                            myInformationSystem.AddEngineerFirstTime();
-                                            EngineerState = WorkStateEngineer.Initialized;
-                                            break;
-                                        case WorkStateEngineer.Initialized:
-                                            myInformationSystem.AddEngineer();
-                                            break;
-                                        default:
-                                            Console.WriteLine("smth weird");
-                                            break;
-                                    }
-
-                                    break;
-                                case "3":
-                                    switch (ProgrammerState)
-                                    {
-                                        case WorkStateProgrammer.NotInitialized:
-                                            myInformationSystem.AddProgrammerFirstTime();
-                                            ProgrammerState = WorkStateProgrammer.Initialized;
-                                            break;
-                                        case WorkStateProgrammer.Initialized:
-                                            myInformationSystem.AddProgrammer();
-                                            break;
-                                        default:
-                                            Console.WriteLine("smth weird");
-                                            break;
-                                    }
-
-                                    break;
-
-                                default:
-                                    Console.WriteLine("Enter correct, RedNeck");
-                                    break;
-                            }
+                            case "0":
+                                Console.WriteLine();
+                                Console.WriteLine("See ya (◕‿◕)");
+                                return;
+                                break;
+                            case "1":
+                                Console.WriteLine();
+                                myInformationSystem.AddWork();
+                                state = State.WorkReady;
+                                break;
+                            default:
+                                Console.WriteLine("Enter Correct, RedNeck (」°ロ°)」");
+                                Console.WriteLine();
+                                break;
                         }
 
                         break;
-                    case "2":
-                        Console.WriteLine();
-                        if (myInformationSystem.InfoAboutDataBase())
+
+                    case State.WorkReady:
+                        Console.WriteLine("0 - Exit");
+                        Console.WriteLine("1 - Add Work");
+                        Console.WriteLine("2 - Add Worker");
+                        Console.Write("Your Choice: ");
+                        var userInput1 = Console.ReadLine();
+
+                        switch (userInput1)
                         {
-                            myInformationSystem.PerformWork();
+                            case "0":
+                                Console.WriteLine();
+                                Console.WriteLine("See ya (◕‿◕)");
+                                return;
+                                break;
+                            case "1":
+                                Console.WriteLine();
+                                myInformationSystem.AddWork();
+                                break;
+                            case "2":
+                                Console.WriteLine();
+                                myInformationSystem.AddWorker();
+                                state = State.WorkAndWorkerReady;
+                                break;
+                            default:
+                                Console.WriteLine("Enter Correct, RedNeck (」°ロ°)」");
+                                Console.WriteLine();
+                                break;
                         }
 
                         break;
-                    case "3":
-                        Console.WriteLine();
-                        myInformationSystem.FindByName();
-                        break;
-                    case "4":
-                        Console.WriteLine();
-                        myInformationSystem.TotalInfo();
-                        break;
-                    case "5":
-                        Console.WriteLine();
-                        myInformationSystem.InfoAboutWorks();
-                        break;
-                    case "6":
-                        Console.WriteLine();
-                        myInformationSystem.InfoAboutDataBase();
-                        break;
-                    case "7":
-                        Console.WriteLine();
-                        if (myInformationSystem.InfoAboutDataBase())
+
+                    case State.WorkAndWorkerReady:
+                        Console.WriteLine("0 - Exit");
+                        Console.WriteLine("1 - Add Work");
+                        Console.WriteLine("2 - Add Worker");
+                        Console.WriteLine("3 - Info About Available Works");
+                        Console.WriteLine("4 - Info About Workers");
+                        Console.WriteLine("5 - Employment");
+                        Console.WriteLine("6 - Perform Work");
+                        Console.WriteLine("7 - Sort Works Dictionary");
+                        Console.WriteLine("8 - Best Worker");
+                        Console.Write("Your Choice: ");
+                        var userInput2 = Console.ReadLine();
+
+                        switch (userInput2)
                         {
-                            myInformationSystem.RemoveByIndex();
+                            case "0":
+                                Console.WriteLine();
+                                Console.WriteLine("See ya (◕‿◕)");
+                                return;
+                                break;
+                            case "1":
+                                Console.WriteLine();
+                                myInformationSystem.AddWork();
+                                break;
+                            case "2":
+                                Console.WriteLine();
+                                myInformationSystem.AddWorker();
+                                break;
+                            case "3":
+                                Console.WriteLine();
+                                myInformationSystem.InfoAboutWorks();
+                                break;
+                            case "4":
+                                Console.WriteLine();
+                                myInformationSystem.InfoAboutWorkers();
+                                break;
+                            case "5":
+                                Console.WriteLine();
+                                myInformationSystem.EmployWorker();
+                                break;
+                            case "6":
+                                Console.WriteLine();
+                                myInformationSystem.PerformWork();
+                                break;
+                            case "7":
+                                Console.WriteLine();
+                                myInformationSystem.SortWorksDictionary();
+                                break;
+                            case "8":
+                                Console.WriteLine();
+                                myInformationSystem.GetBestWorker();
+                                break;
+                            default:
+                                Console.WriteLine("Enter Correct, RedNeck (」°ロ°)」");
+                                Console.WriteLine();
+                                break;
                         }
 
                         break;
-                    case "8":
-                        myJournal.printLogs();
-                        break;
-                    case "9":
-                        Console.WriteLine();
-                        myInformationSystem.AddWork();
-                        break;
+
                     default:
-                        Console.WriteLine();
-                        Console.WriteLine("Enter correct, RedNeck");
+                        Console.WriteLine("Smth Weird");
                         break;
                 }
             }
