@@ -18,6 +18,20 @@ namespace _053502_GERCHIK_LAB5_.Entities
 
         public event WorkDelegate NotifyAboutPerformedWork;
 
+        public void Initiall()
+        {
+            worksDictionary.Add("Builder", new Work("Builder", 1000));
+            worksDictionary.Add("Builder1", new Work("Builder1", 1500));
+            worksDictionary.Add("Builder2", new Work("Builder2", 2000));
+
+            Worker workerToAdd = new Worker();
+
+            workerToAdd.Name = "Vasya";
+            workerToAdd.Works.Add(worksDictionary.ElementAt(0).Value);
+
+            _dataBase.Add(workerToAdd);
+        }
+
         private int GetWorkerId()
         {
             bool temp = true;
@@ -222,10 +236,10 @@ namespace _053502_GERCHIK_LAB5_.Entities
 
                 Console.WriteLine("Work Hours: ");
 
-                for (int workHoursIndex = 0; workHoursIndex < _dataBase[index].workHours.Count; workHoursIndex++)
+                for (int workHoursIndex = 0; workHoursIndex < _dataBase[index].WorkHours.Count; workHoursIndex++)
                 {
                     Console.WriteLine(
-                        $"{(workHoursIndex + 1).ToString()}. {_dataBase[index].workHours.ElementAt(workHoursIndex).Key.WorkName}: {_dataBase[index].workHours.ElementAt(workHoursIndex).Value.ToString()}");
+                        $"{(workHoursIndex + 1).ToString()}. {_dataBase[index].WorkHours.ElementAt(workHoursIndex).Key.WorkName}: {_dataBase[index].WorkHours.ElementAt(workHoursIndex).Value.ToString()}");
                 }
 
                 Console.WriteLine($"Salary: {_dataBase[index].WorkerSalary.ToString()}");
@@ -301,15 +315,18 @@ namespace _053502_GERCHIK_LAB5_.Entities
             int tempHourstoAdd = workHours;
             try
             {
-                _dataBase[workerId].workHours.Add(_dataBase[workerId].Works[workId], workHours);
+                _dataBase[workerId].WorkHours.Add(_dataBase[workerId].Works[workId], workHours);
             }
             catch (ArgumentException)
             {
-                _dataBase[workerId].workHours[_dataBase[workerId].Works[workId]] += tempHourstoAdd;
+                _dataBase[workerId].WorkHours[_dataBase[workerId].Works[workId]] += tempHourstoAdd;
             }
 
-            _dataBase[workerId].WorkerSalary = _dataBase[workerId].Works[workId].Salary *
-                                               _dataBase[workerId].workHours.ElementAt(workId).Value;
+            //_dataBase[workerId].SalaryByWork.Add(_dataBase[workerId].Works[workId],
+            //    _dataBase[workerId].Works[workId].Salary * _dataBase[workerId].WorkHours.ElementAt(workId).Value);
+
+            _dataBase[workerId].WorkerSalary += _dataBase[workerId].Works[workId].Salary *
+                                                _dataBase[workerId].WorkHours.ElementAt(workId).Value;
 
             NotifyAboutPerformedWork?.Invoke(
                 $"Work For {_dataBase[workerId].Name} Performed. As {_dataBase[workerId].Works[workId].WorkName}, For {workHours} Hours. ");
@@ -338,9 +355,55 @@ namespace _053502_GERCHIK_LAB5_.Entities
             Console.WriteLine();
         }
 
-        public void FilterWorkersBySalary()
+        public void HowMuchWorkersHaveGreaterSalary()
         {
-            
+            List<double> workersSalaries = new List<double>();
+
+            for (int index = 0; index < _dataBase.Count; index++)
+            {
+                workersSalaries.Add(_dataBase[index].WorkerSalary);
+            }
+
+            bool temp = true;
+            double salaryToSort = -1;
+            while (temp)
+            {
+                try
+                {
+                    Console.Write("Enter Salary To Sort: ");
+                    var userInput = Console.ReadLine();
+                    salaryToSort = Convert.ToDouble(userInput);
+
+                    if (salaryToSort < 0)
+                    {
+                        Console.WriteLine("Enter a proper value, RedNeck!");
+                        continue;
+                    }
+                }
+                catch (System.FormatException)
+                {
+                    Console.WriteLine("Enter a proper value, RedNeck!");
+                    continue;
+                }
+
+                temp = false;
+            }
+
+            double howMuchWorkers = workersSalaries.Aggregate(0, (total, next) =>
+                next > salaryToSort ? total + 1 : total);
+
+            Console.WriteLine();
+            Console.WriteLine($"{howMuchWorkers.ToString()} Workers Have Salary > {salaryToSort.ToString()}");
+            Console.WriteLine();
+        }
+
+        public void GroupBySalaries()
+        {
+            InfoAboutWorkers();
+
+            Worker testWorker = _dataBase[GetWorkerId()];
+
+            testWorker.GroupByMethod(testWorker);
         }
     }
 }

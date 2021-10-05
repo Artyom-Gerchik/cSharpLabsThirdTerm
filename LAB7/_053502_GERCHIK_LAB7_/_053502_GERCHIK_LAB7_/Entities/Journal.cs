@@ -7,7 +7,7 @@ namespace _053502_GERCHIK_LAB5_.Entities
     {
         private List<string> logs = new List<string>();
 
-        public void outputEvent(string message)
+        public void OutputEvent(string message)
         {
             Console.WriteLine();
             Console.WriteLine(message);
@@ -16,7 +16,7 @@ namespace _053502_GERCHIK_LAB5_.Entities
             logs.Add(message);
         }
 
-        public void printLogs()
+        public void PrintLogs()
         {
             Console.WriteLine("---------------LOGS---------------");
             

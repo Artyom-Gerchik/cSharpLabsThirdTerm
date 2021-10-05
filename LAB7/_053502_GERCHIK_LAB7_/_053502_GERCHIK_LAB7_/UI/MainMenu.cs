@@ -15,8 +15,13 @@ namespace _053502_GERCHIK_LAB5_.Entities
 
         public void mainMenu(InformationSystem myInformationSystem)
         {
-            myInformationSystem.NotifyAboutWorker += message => myJournal.outputEvent(message);
-            State state = State.Initiall;
+            myInformationSystem.NotifyAboutWorker += message => myJournal.OutputEvent(message);
+
+
+            //State state = State.Initiall;
+            State state = State.WorkAndWorkerReady;
+            myInformationSystem.Initiall();
+
 
             Console.WriteLine("Hello");
             Console.WriteLine();
@@ -92,6 +97,8 @@ namespace _053502_GERCHIK_LAB5_.Entities
                         Console.WriteLine("6 - Perform Work");
                         Console.WriteLine("7 - Sort Works Dictionary");
                         Console.WriteLine("8 - Best Worker");
+                        Console.WriteLine("9 - How Much Workers Have Greater Salary");
+                        Console.WriteLine("10 - Worker Work - Salary");
                         Console.Write("Your Choice: ");
                         var userInput2 = Console.ReadLine();
 
@@ -133,6 +140,14 @@ namespace _053502_GERCHIK_LAB5_.Entities
                             case "8":
                                 Console.WriteLine();
                                 myInformationSystem.GetBestWorker();
+                                break;
+                            case "9":
+                                Console.WriteLine();
+                                myInformationSystem.HowMuchWorkersHaveGreaterSalary();
+                                break;
+                            case "10":
+                                Console.WriteLine();
+                                myInformationSystem.GroupBySalaries();
                                 break;
                             default:
                                 Console.WriteLine("Enter Correct, RedNeck (」°ロ°)」");
