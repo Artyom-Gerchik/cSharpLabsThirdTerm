@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<ArrayOfRailwayStation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <RailwayStation>
+    <LuggageRooms>
+      <LuggageRoom>
+        <_luggageRoomHeight>10</_luggageRoomHeight>
+        <_luggageRoomWidth>20</_luggageRoomWidth>
+        <_luggageRoomDepth>30</_luggageRoomDepth>
+      </LuggageRoom>
+      <LuggageRoom>
+        <_luggageRoomHeight>11</_luggageRoomHeight>
+        <_luggageRoomWidth>21</_luggageRoomWidth>
+        <_luggageRoomDepth>31</_luggageRoomDepth>
+      </LuggageRoom>
+      <LuggageRoom>
+        <_luggageRoomHeight>1</_luggageRoomHeight>
+        <_luggageRoomWidth>2</_luggageRoomWidth>
+        <_luggageRoomDepth>3</_luggageRoomDepth>
+      </LuggageRoom>
+    </LuggageRooms>
+    <RailwayStationCountOfLuggageRooms>3</RailwayStationCountOfLuggageRooms>
+    <RailwayStationName>Verdansk</RailwayStationName>
+    <RailwayStationCountOfWays>10</RailwayStationCountOfWays>
+  </RailwayStation>
+  <RailwayStation>
+    <LuggageRooms>
+      <LuggageRoom>
+        <_luggageRoomHeight>154</_luggageRoomHeight>
+        <_luggageRoomWidth>256</_luggageRoomWidth>
+        <_luggageRoomDepth>323</_luggageRoomDepth>
+      </LuggageRoom>
+    </LuggageRooms>
+    <RailwayStationCountOfLuggageRooms>1</RailwayStationCountOfLuggageRooms>
+    <RailwayStationName>Osipovichi</RailwayStationName>
+    <RailwayStationCountOfWays>5</RailwayStationCountOfWays>
+  </RailwayStation>
+</ArrayOfRailwayStation>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RailwayStations>
+  <RailwayStation>
+    <Name>Verdansk</Name>
+    <CountOfWays>10</CountOfWays>
+    <CountOfLuggageRooms>3</CountOfLuggageRooms>
+    <LuggageRoom>
+      <RoomHeight>10</RoomHeight>
+      <RoomWidth>20</RoomWidth>
+      <RoomDepth>30</RoomDepth>
+    </LuggageRoom>
+    <LuggageRoom>
+      <RoomHeight>11</RoomHeight>
+      <RoomWidth>21</RoomWidth>
+      <RoomDepth>31</RoomDepth>
+    </LuggageRoom>
+    <LuggageRoom>
+      <RoomHeight>1</RoomHeight>
+      <RoomWidth>2</RoomWidth>
+      <RoomDepth>3</RoomDepth>
+    </LuggageRoom>
+  </RailwayStation>
+  <RailwayStation>
+    <Name>Osipovichi</Name>
+    <CountOfWays>5</CountOfWays>
+    <CountOfLuggageRooms>1</CountOfLuggageRooms>
+    <LuggageRoom>
+      <RoomHeight>154</RoomHeight>
+      <RoomWidth>256</RoomWidth>
+      <RoomDepth>323</RoomDepth>
+    </LuggageRoom>
+  </RailwayStation>
+</RailwayStations>

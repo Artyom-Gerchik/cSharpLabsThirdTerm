@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Domain;
 
 namespace _053502_GERCHIK_LAB9_
@@ -7,7 +9,8 @@ namespace _053502_GERCHIK_LAB9_
     {
         static void Main()
         {
-            RailwayStation railwayStation = new RailwayStation("Verdansk",10,10,10,10);
+            MainMenu mainMenu = new MainMenu();
+            mainMenu.mainMenu();
         }
     }
 }
