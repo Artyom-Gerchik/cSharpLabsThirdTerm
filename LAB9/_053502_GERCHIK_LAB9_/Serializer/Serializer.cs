@@ -18,7 +18,7 @@ namespace Serializer
             var obj = from xElement in xDoc.Element("RailwayStations")?.Elements("RailwayStation")
                 select new RailwayStation()
                 {
-                    RailwayStationName = xElement.Element("Name")?.Value,
+                    RailwayStationName = xElement.Attribute("Name")?.Value,
                     RailwayStationCountOfWays = Convert.ToInt32(xElement.Element("CountOfWays")?.Value),
                     RailwayStationCountOfLuggageRooms =
                         Convert.ToInt32(xElement.Element("CountOfLuggageRooms")?.Value),
@@ -67,11 +67,12 @@ namespace Serializer
             {
                 var stationNode = new XElement("RailwayStation", new[]
                 {
-                    new XElement("Name", station.RailwayStationName),
+                    //new XAttribute("Name", station.RailwayStationName),
                     new XElement("CountOfWays", station.RailwayStationCountOfWays.ToString()),
                     new XElement("CountOfLuggageRooms",
                         station.RailwayStationCountOfLuggageRooms.ToString()),
                 });
+                stationNode.Add(new XAttribute("Name", station.RailwayStationName));
                 foreach (var room in station.LuggageRooms)
                 {
                     var roomNode = new XElement("LuggageRoom", new[]

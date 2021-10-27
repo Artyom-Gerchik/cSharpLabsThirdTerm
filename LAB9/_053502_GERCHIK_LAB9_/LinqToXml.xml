@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RailwayStations>
-  <RailwayStation>
-    <Name>Verdansk</Name>
+  <RailwayStation Name="Verdansk">
     <CountOfWays>10</CountOfWays>
     <CountOfLuggageRooms>3</CountOfLuggageRooms>
     <LuggageRoom>
@@ -20,8 +19,7 @@
       <RoomDepth>3</RoomDepth>
     </LuggageRoom>
   </RailwayStation>
-  <RailwayStation>
-    <Name>Osipovichi</Name>
+  <RailwayStation Name="Osipovichi">
     <CountOfWays>5</CountOfWays>
     <CountOfLuggageRooms>1</CountOfLuggageRooms>
     <LuggageRoom>
