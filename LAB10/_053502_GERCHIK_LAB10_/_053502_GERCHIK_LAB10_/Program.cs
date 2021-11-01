@@ -26,18 +26,21 @@ namespace _053502_GERCHIK_LAB10_
             IEnumerable<Employee> data = employees;
 
             Assembly asm = Assembly.LoadFrom(dllLibPath);
+            
+            Type[] test = asm.GetTypes(); // test all types
+            
             var type = asm.GetType("ClassLibrary.WrapperClass", true, true);
 
-            object obj = Activator.CreateInstance(type);
+            object instance = Activator.CreateInstance(type);
             
-            var temp = type.GetMethods(); // test methods
+            var temp = type.GetMethods(); // test all methods
 
             MethodInfo saveDataMethod = type.GetMethod("SaveData");
             MethodInfo readFileMethod = type.GetMethod("ReadFile");
 
-            saveDataMethod?.Invoke(obj, new Object[] {data, jsonPath});
+            saveDataMethod?.Invoke(instance, new Object[] {data, jsonPath});
 
-            var result = readFileMethod.Invoke(obj, new object[] {jsonPath});
+            var result = readFileMethod.Invoke(instance, new object[] {jsonPath});
             var resultAsList = result as List<Employee>;
 
             if (resultAsList != null)
