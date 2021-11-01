@@ -26,13 +26,14 @@ namespace _053502_GERCHIK_LAB10_
             IEnumerable<Employee> data = employees;
 
             Assembly asm = Assembly.LoadFrom(dllLibPath);
-            
+
             Type[] test = asm.GetTypes(); // test all types
-            
-            var type = asm.GetType("ClassLibrary.WrapperClass", true, true);
+
+            var type = asm.GetType("ClassLibrary.FileService`1", true, true)
+                .MakeGenericType(typeof(Employee));
 
             object instance = Activator.CreateInstance(type);
-            
+
             var temp = type.GetMethods(); // test all methods
 
             MethodInfo saveDataMethod = type.GetMethod("SaveData");
