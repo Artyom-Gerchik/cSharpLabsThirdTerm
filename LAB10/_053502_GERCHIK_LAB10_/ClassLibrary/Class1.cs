@@ -8,7 +8,7 @@ using _053502_GERCHIK_LAB10_.Interfaces;
 
 namespace ClassLibrary
 {
-    public class Program
+    public class WrapperClass
     {
         FileService<Employee> _fileService = new FileService<Employee>();
 

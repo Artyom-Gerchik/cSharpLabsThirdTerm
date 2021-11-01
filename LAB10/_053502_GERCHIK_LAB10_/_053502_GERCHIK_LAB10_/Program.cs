@@ -26,9 +26,11 @@ namespace _053502_GERCHIK_LAB10_
             IEnumerable<Employee> data = employees;
 
             Assembly asm = Assembly.LoadFrom(dllLibPath);
-            var type = asm.GetType("ClassLibrary.Program", true, true);
+            var type = asm.GetType("ClassLibrary.WrapperClass", true, true);
 
             object obj = Activator.CreateInstance(type);
+            
+            var temp = type.GetMethods(); // test methods
 
             MethodInfo saveDataMethod = type.GetMethod("SaveData");
             MethodInfo readFileMethod = type.GetMethod("ReadFile");
